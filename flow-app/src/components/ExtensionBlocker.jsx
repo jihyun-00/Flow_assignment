@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./ExtensionBlocker.css";
 
+const api = axios.create({ baseURL: import.meta.env.VITE_API_URL });
+
 export default function ExtensionBlocker() {
     // 고정 확장자 목록 (DB에서 받아옴, 체크박스 렌더링용)
     const [fixed, setFixed] = useState([]); // DB에서 받아온 고정 확장자 목록을 저장
@@ -30,8 +32,8 @@ export default function ExtensionBlocker() {
         try {
             // 두 API를 병렬로 호출하여 고정/커스텀 확장자 목록을 모두 받아옴
             const [fixedRes, customRes] = await Promise.all([ // 두 요청을 동시에 보냄으로써 속도 향상 및 효율성 증가
-                axios.get("/api/extensions/fixed"),
-                axios.get("/api/extensions/custom")
+                api.get("/api/extensions/fixed"),
+                api.get("/api/extensions/custom")
             ]);
             setFixed(Array.isArray(fixedRes.data) ? fixedRes.data : []);
             setCustom(Array.isArray(customRes.data) ? customRes.data : []);
@@ -44,7 +46,7 @@ export default function ExtensionBlocker() {
     // 고정 확장자 체크박스 변경 시 백엔드에 상태 업데이트 요청
     const handleFixedChange = async (name, checked) => {
         try {
-            await axios.put(`/api/extensions/fixed/${name}/status`, null, {
+            await api.put(`/api/extensions/fixed/${name}/status`, null, {
                 params: { enabled: checked }
             });
             fetchData(); // 변경 후 목록 갱신
@@ -77,7 +79,7 @@ export default function ExtensionBlocker() {
             return;
         }
         try {
-            await axios.post("/api/extensions/custom", null, {
+            await api.post("/api/extensions/custom", null, {
                 params: { extension: customInput.trim() }
             });
             setCustomInput("");
@@ -91,7 +93,7 @@ export default function ExtensionBlocker() {
     // X 버튼 클릭 시 커스텀 확장자 삭제
     const handleDeleteCustom = async (name) => {
         try {
-            await axios.delete(`/api/extensions/custom/${name}`);
+            await api.delete(`/api/extensions/custom/${name}`);
             fetchData();
         } catch {
             setError("삭제 실패");
