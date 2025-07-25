@@ -12,8 +12,3 @@ spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 
 server.port=443
-server.ssl.enabled=true
-server.ssl.key-store=classpath:keystore.p12
-server.ssl.key-store-password=flow1234
-server.ssl.key-store-type=PKCS12
-server.ssl.key-alias=tomcat
