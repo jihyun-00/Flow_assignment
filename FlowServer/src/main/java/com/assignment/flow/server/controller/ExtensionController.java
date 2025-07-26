@@ -17,7 +17,8 @@ import java.util.List;
 @RequestMapping("/api/extensions")
 @CrossOrigin(origins = "*")
 public class ExtensionController {
-    // 서비스 계층 주입 (비즈니스 로직 위임)
+	
+    // 서비스 계층 주입
     private final ExtensionService extensionService;
 
     @Autowired

@@ -1,2 +1,3 @@
-2025/07/24-20:07:37.179 5e8c Creating DB C:\Users\jihyunE\Desktop\homespace\Flow_Assignment\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Sync Data\LevelDB since it was missing.
-2025/07/24-20:07:37.213 5e8c Reusing MANIFEST C:\Users\jihyunE\Desktop\homespace\Flow_Assignment\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Sync Data\LevelDB/MANIFEST-000001
+2025/07/26-15:12:06.558 7838 Reusing MANIFEST C:\Users\jihyunE\Desktop\homespace\Flow_Assignment\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Sync Data\LevelDB/MANIFEST-000001
+2025/07/26-15:12:06.564 7838 Recovering log #3
+2025/07/26-15:12:06.564 7838 Reusing old log C:\Users\jihyunE\Desktop\homespace\Flow_Assignment\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Sync Data\LevelDB/000003.log 

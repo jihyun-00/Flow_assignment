@@ -16,6 +16,7 @@ import java.util.List;
  */
 @Service
 public class ExtensionService {
+	
     // 고정 확장자 JPA 리포지토리 (DB 연동)
     private final FixedExtensionRepository fixedRepo;
     // 커스텀 확장자 JPA 리포지토리 (DB 연동)
@@ -69,8 +70,13 @@ public class ExtensionService {
         String lower = extensionName.trim().toLowerCase();
         boolean exists = customRepo.findAll().stream()
                 .anyMatch(ext -> ext.getExtensionName().equalsIgnoreCase(lower));
-        if (exists) {
-            throw new IllegalArgumentException("이미 존재하는 확장자입니다.");
+		if (exists) {
+			throw new IllegalArgumentException("이미 존재하는 확장자입니다.");
+			// 확장자는 입력받을 때 모두 소문자로 변환하여 처리
+			// -> 악의적으로 확장자를 대소문자 섞어서 파일을 업로드하여
+			// -> 접근 및 방해할 수 있기에 파일을 받아올 때 소문자로 모두 변환하여 받아오게 함
+			// 따라서 커스텀 확장자는 대소문자 구분 없이 소문자로만 추가
+			// 고정 확장자와의 중복 비교도 모두 소문자로 통일해서 진행
         }
         CustomExtension ext = new CustomExtension(extensionName);
         return customRepo.save(ext);

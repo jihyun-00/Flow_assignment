@@ -10,9 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FlowServerApplication {
 
-	/**
-	 * 메인 함수: 서버 실행
-	 */
+	// 서버 실행
 	public static void main(String[] args) {
 		SpringApplication.run(FlowServerApplication.class, args);
 	}

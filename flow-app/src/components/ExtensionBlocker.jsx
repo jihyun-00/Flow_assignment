@@ -58,6 +58,7 @@ export default function ExtensionBlocker() {
     // +추가 버튼 클릭 시 커스텀 확장자 추가
     const handleAddCustom = async () => {
         if (!customInput.trim()) return; // 입력란이 비어있으면 추가 안 함
+
         // 영문 및 숫자만 허용 (한글 및 특수문자 제거)
         if (!/^[a-zA-Z0-9]+$/.test(customInput.trim())) {
             setError("영문 및 숫자만 입력 가능합니다.");
@@ -77,6 +78,11 @@ export default function ExtensionBlocker() {
         if (fixed.some(f => f.extensionName.toLowerCase() === customInput.trim().toLowerCase())) {
             setError("고정 확장자에 이미 존재합니다.");
             return;
+            // 확장자는 입력받을 때 모두 소문자로 변환하여 처리
+            // -> 악의적으로 확장자를 대소문자 섞어서 파일을 업로드하여
+            // -> 접근 및 방해할 수 있기에 파일을 받아올 때 소문자로 모두 변환하여 받아오게 함
+            // 따라서 커스텀 확장자는 대소문자 구분 없이 소문자로만 추가
+            // 고정 확장자와의 중복 비교도 모두 소문자로 통일해서 진행
         }
         try {
             await api.post("/api/extensions/custom", null, {
@@ -114,7 +120,6 @@ export default function ExtensionBlocker() {
         setCustomInput(value);
     };
 
-    // 렌더링: 고정 확장자 체크박스, 커스텀 확장자 입력/추가/삭제 UI
     return (
         <div className="file-extension-blocker">
             <div className="top-border"></div>
@@ -125,7 +130,7 @@ export default function ExtensionBlocker() {
                 <h1 className="header-title">파일 확장자 차단</h1>
             </div>
             <div className="divider"></div>
-            {loading && <div className="mb-4 text-blue-500">로딩 중...</div>}
+            {loading && <div>로딩 중...</div>}
             <div>
                 <p className="description">
                     파일확장자에 따라 특정 형식의 파일을 첨부하거나 전송하지 못하도록 제한
