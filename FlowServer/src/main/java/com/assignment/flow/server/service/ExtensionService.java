@@ -68,19 +68,18 @@ public class ExtensionService {
         if (customRepo.count() >= 200) {
             throw new IllegalStateException("최대 200개의 커스텀 확장자만 등록할 수 있습니다.");
         }
-
-        // 입력된 확장자를 소문자로 변환하여 저장
-        String normalizedExtension = extensionName.trim().toLowerCase();
-
-        // 중복 검사 (소문자로 변환된 값으로 비교)
+        String lower = extensionName.trim().toLowerCase();
         boolean exists = customRepo.findAll().stream()
-                .anyMatch(ext -> ext.getExtensionName().equalsIgnoreCase(normalizedExtension));
+                .anyMatch(ext -> ext.getExtensionName().equalsIgnoreCase(lower));
         if (exists) {
             throw new IllegalArgumentException("이미 존재하는 확장자입니다.");
+            // 확장자는 입력받을 때 모두 소문자로 변환하여 처리
+            // -> 악의적으로 확장자를 대소문자 섞어서 파일을 업로드하여
+            // -> 접근 및 방해할 수 있기에 파일을 받아올 때 소문자로 모두 변환하여 받아오게 함
+            // 따라서 커스텀 확장자는 대소문자 구분 없이 소문자로만 추가
+            // 고정 확장자와의 중복 비교도 모두 소문자로 통일해서 진행
         }
-
-        // 소문자로 변환된 확장자명으로 엔티티 생성 및 저장
-        CustomExtension ext = new CustomExtension(normalizedExtension);
+        CustomExtension ext = new CustomExtension(extensionName);
         return customRepo.save(ext);
     }
 
