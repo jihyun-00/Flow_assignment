@@ -74,7 +74,7 @@ export default function ExtensionBlocker() {
             setError("최대 200개까지 등록할 수 있습니다.");
             return;
         }
-        // 고정 확장자 중복 체크 (대소문자 구분 없이)
+        // 고정 확장자 중복 체크 (소문자로 변환된 값으로 비교)
         if (fixed.some(f => f.extensionName.toLowerCase() === customInput.trim().toLowerCase())) {
             setError("고정 확장자에 이미 존재합니다.");
             return;
@@ -113,10 +113,10 @@ export default function ExtensionBlocker() {
         }
     };
 
-    // 커스텀 확장자 입력란에서 띄어쓰기(공백) 입력이 안 되도록 처리
+    // 커스텀 확장자 입력란에서 띄어쓰기(공백) 제거 및 소문자 변환
     const handleCustomInputChange = (e) => {
-        // 모든 공백(띄어쓰기) 제거
-        const value = e.target.value.replace(/\s/g, "");
+        // 모든 공백(띄어쓰기) 제거하고 소문자로 변환
+        const value = e.target.value.replace(/\s/g, "").toLowerCase();
         setCustomInput(value);
     };
 
@@ -176,7 +176,7 @@ export default function ExtensionBlocker() {
                     <div className="extensions-list">
                         {custom.map((c) => (
                             <span key={c.extensionName} className="extension-tag">
-                                {c.extensionName}
+                                {c.extensionName.toLowerCase()}
                                 <button
                                     onClick={() => handleDeleteCustom(c.extensionName)}
                                     className="extension-remove"
